@@ -1,8 +1,8 @@
 const fs = require('fs');
 const Readable = require('stream').Readable;
 const Joi = require('joi');
-
-
+const sys = require('sys');
+const exec = require('child_process').exec;
 module.exports = [
   {
     method: 'POST',
@@ -11,6 +11,13 @@ module.exports = [
       tags: ['api'],
       description: 'Good testing',
       handler: (request, reply) => {
+        const child = exec("pwd", (err, stdout, stderr) => {
+          sys.print("stdout " + stdout);
+          sys.print("stdin" + stderr);
+          if(err) {
+            console.log("error " + err);
+          }
+        })
         reply({ status: 'OK' });
       },
     },

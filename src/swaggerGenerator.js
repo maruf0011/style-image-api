@@ -6,7 +6,7 @@ const Good = require('good');
 
 const options = {
   info: {
-    title: 'Doctor App API Documentation',
+    title: 'Image Style API Documentation',
     version: '1.0.0',
   },
 };
