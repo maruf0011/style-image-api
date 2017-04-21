@@ -36,31 +36,32 @@ module.exports = [
         failAction: 'log',
         maxBytes: 3000000,
       },
-      validate: {
-        payload: Joi.object().keys({
-            file: Joi.binary().required(),
-            filename: Joi.string()
-        })
-      },
       handler: function (request, reply) {
-          var data = request.payload;
-          if (data.file) {
-              var name = data.file.hapi.filename;
-              var path = __dirname + "/uploads/" + name;
+        console.log('bokkor');
+          console.log(request);
+          var data = request.payload.file;
+          if (data) {
+            console.log('HERE');
+              var name = data.hapi.filename;
+              var path = __dirname + "/../../../uploads/" + name;
+              console.log('path', path);
               var file = fs.createWriteStream(path);
 
               file.on('error', function (err) {
                   console.error(err)
               });
 
-              data.file.pipe(file);
+              data.pipe(file);
 
-              data.file.on('end', function (err) {
+              data.on('end', function (err) {
+                  console.log('end');
                   var ret = {
-                      filename: data.file.hapi.filename,
+                      filename: data.hapi.filename,
                   }
                   reply(JSON.stringify(ret));
-              })
+              });
+          } else {
+            console.log('fuck');
           }
         }
     }
